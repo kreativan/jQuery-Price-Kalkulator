@@ -9,34 +9,34 @@
         jQuery(function($) {
         
            $("#izracunaj").click(function(event) {
-                var cena        = $('.ivm-cena-proizvoda').val();
-                var duzina      = $("#duz").val();
-                var visina      = $("#vis").val();
-                // kvadratura
-                var kvadrat     = (duzina * visina).toFixed(2);
-                $("#kvadratura").text(kvadrat);
-                // cena * kvadratura
-                var ukupnoC = cena *(duzina * visina).toFixed(2);
-                // ukupno
-                $("#ukupno").text(ukupnoC);
+				var cena        = $('.ivm-cena-proizvoda').val();
+				var duzina      = $("#duz").val();
+				var visina      = $("#vis").val();
+				// kvadratura
+				var kvadrat     = (duzina * visina).toFixed(2);
+				$("#kvadratura").text(kvadrat);
+				// cena * kvadratura
+				var ukupnoC = cena *(duzina * visina).toFixed(2);
+				// ukupno
+				$("#ukupno").text(ukupnoC);
 
-                // error handling
-                if(cena < 1) {
-                    $('.ivm-cena-proizvoda').addClass("ivm-error");
-                else {
-                    $('.ivm-cena-proizvoda').removeClass("ivm-error");
-                }
-                if(duzina < 1) {
-                    $("#duz").addClass("ivm-error");
-                }else {
-                    $("#duz").removeClass("ivm-error");
-                }
-                if(visina < 1) {
-                    $("#vis").addClass("ivm-error");
-                }else {
-                    $("#vis").removeClass("ivm-error");
-                }
-            });
+				// error handling
+				if(cena < 1) {
+					$('.ivm-cena-proizvoda').addClass("ivm-error");
+				}else {
+					$('.ivm-cena-proizvoda').removeClass("ivm-error");
+				}
+				if(duzina < 1) {
+					$("#duz").addClass("ivm-error");
+				}else {
+					$("#duz").removeClass("ivm-error");
+				}
+				if(visina < 1) {
+					$("#vis").addClass("ivm-error");
+				}else {
+					$("#vis").removeClass("ivm-error");
+				}
+			});
             
         });
     </script>
