@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+	<head>
+  
+		<meta charset="utf-8">
+		<title>kalkulator</title>
+    
+    <script>
+        jQuery(function($) {
+        
+            // Simple Kalkulator - "toFixed(2)" zaokruzuje na 2 decimale
+            var izracunaj = $('.izracunaj');
+            izracunaj.change(function(){
+                var cena        = $('.ivm-cena-proizvoda').val();
+                var duzina      = $("#duz").val();
+                var visina      = $("#vis").val();
+                // kvadratura
+                var kvadrat     = (duzina * visina).toFixed(2);
+                $("#kvadratura").text(kvadrat);
+                // cena * kvadratura
+                var ukupnoC = cena *(duzina * visina).toFixed(2);
+                // ukupno
+                $("#ukupno").text(ukupnoC);
+            });
+            
+        });
+    </script>
+    
+    
+	</head>
+	<body>
+		
+	</body>
+</html>
