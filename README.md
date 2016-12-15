@@ -1,0 +1,3 @@
+##Simple jQuery Calculator
+###
+Just some simple jquery calculator that calculates soem input values "on fly"...
