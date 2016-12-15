@@ -9,8 +9,8 @@
         jQuery(function($) {
         
             // Simple Kalkulator - "toFixed(2)" zaokruzuje na 2 decimale
-            var izracunaj = $('.izracunaj');
-            izracunaj.change(function(){
+            var racunaj = $('.racunaj');
+            racunaj.change(function(){
                 var cena        = $('.ivm-cena-proizvoda').val();
                 var duzina      = $("#duz").val();
                 var visina      = $("#vis").val();
@@ -32,17 +32,17 @@
 		<form class="uk-form">
 			<div class="uk-form-row">
 				<label>Proizvod</label><br />
-				<select class="izracunaj ivm-cena-proizvoda uk-width-1-1">
+				<select class="ivm-cena-proizvoda racunaj uk-width-1-1">
 					<option value="0">Izaberi</option>
 				</select>
 			</div>
 			<div class="uk-form-row">
 				<label>Duzina</label>
-				<input id="duz" class="izracunaj uk-width-1-1 uk-text-right" type="text" name="duz" value="0" />
+				<input id="duz" class="racunaj uk-width-1-1 uk-text-right" type="text" name="duz" value="0" />
 			</div>
 			<div class="uk-form-row">
 				<label>Visina</label>
-				<input id="vis" class="izracunaj uk-width-1-1 uk-text-right" type="text" name="vis" value="0" />
+				<input id="vis" class="racunaj uk-width-1-1 uk-text-right" type="text" name="vis" value="0" />
 			</div>
 			<div class="uk-form-row uk-text-right">
 				<span id="kvadratura">0</span>
