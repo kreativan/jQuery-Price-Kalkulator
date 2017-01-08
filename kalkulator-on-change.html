@@ -32,6 +32,11 @@
 			   });
 			   $('.ivm-calc-total').text(total);
 			});
+				// checkbox calc reset
+				$('.ivm-calc-reset').click(function(){
+					var total = 0;
+					$('.ivm-calc-total').text(total);
+				});
             
         });
     </script>
@@ -71,6 +76,7 @@
 			<input class="ivm-calc-value" type="checkbox" name="name_array[]" value="2" />
 			<input class="ivm-calc-value" type="checkbox" name="name_array[]" value="3" />
 			<div class="ivm-calc-total">0</div>
+			<a class="ivm-calc-reset">Reset</a>
 		</form>
 		
 	</body>
