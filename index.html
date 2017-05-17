@@ -1,85 +1,185 @@
 <!DOCTYPE html>
 <html>
 	<head>
-  
+
 		<meta charset="utf-8">
 		<title>Kalkulator On Change</title>
-		
+
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.22/css/uikit.min.css" />
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    
+
     <script>
         jQuery(function($) {
-        
-            // Simple Kalkulator - "toFixed(2)" zaokruzuje na 2 decimale
+
+            // Simple Kalkulator
             var racunaj = $('.racunaj');
-            racunaj.change(function(){
+            racunaj.on("keyup keypress blur change", function(e) {
                 var cena        = $('.ivm-cena-proizvoda').val();
                 var duzina      = $("#duz").val();
                 var visina      = $("#vis").val();
                 // kvadratura
-                var kvadrat     = (duzina * visina).toFixed(2);
+                var kvadrat     = (duzina * visina).toFixed(2); // zaokruzi na 2 decimale
                 $("#kvadratura").text(kvadrat);
                 // cena * kvadratura
-                var ukupnoC = cena *(duzina * visina).toFixed(2);
+
                 // ukupno
-                $("#ukupno").text(ukupnoC);
+				if(cena != 0) {
+					var ukupnoC = cena *(duzina * visina).toFixed(4); // zaokruzi na 4 decimale, zelimo 2 posle zareza...
+					$("#ukupno").text(ukupnoC + ' RSD');
+				} else {
+					$("#ukupno").text("izaberite proizvod");
+				}
+
             });
-			
-	    // Checkbox calculator
-	    $('.ivm-calc-value').change(function(){
-		var total = 0;
-		var price = 2;
-		$('.ivm-calc-value:checked').each(function(){
-			total+=price;
-		});
-		$('.ivm-calc-total').text(total);
-	    });
-	
-            
+
+	    	// KOMP kalkulator
+		    $('#komp').change(function(){
+
+				var total = 0;
+
+				var tipData = $("#tip").find(":selected").data("tip");
+				var tip = $("#tip").val();
+				var cpuField = $("#cpu");
+				var cpu = cpuField.val();
+
+				if(tip != '') {
+					total += Number(tip);
+					cpuField.removeAttr('disabled');
+					$("#komp input[type=checkbox]").removeAttr('disabled');
+					$(".reset").removeClass('uk-hidden');
+				}
+
+				if(tipData == 'mac') {
+					cpuField.attr('disabled','disabled');
+				}
+
+				if(cpu != '') {
+					total += Number(cpu);
+				}
+
+				delovi = $(this).find("input[type=checkbox]:checked");
+				delovi.each(function() {
+					var delovi = Number($(this).val());
+					total += delovi;
+				});
+
+				if(tip != '' && cpu != '' && tipData != 'mac') {
+					$('.ivm-calc-total').empty();
+					$('.ivm-calc-total').append("<h1 class='uk-text-bold'>"+total+"</h1>");
+				} else if (tipData == 'mac') {
+					$('.ivm-calc-total').empty();
+					$('.ivm-calc-total').append("<h1 class='uk-text-bold'>"+total+"</h1>");
+				} else if (tip != '') {
+					$('.ivm-calc-total').empty();
+					$('.ivm-calc-total').append("<h4 class='uk-text-primary'>Izaberi procesor</h4>");
+				} else if (cpu != '') {
+					$('.ivm-calc-total').empty();
+					$('.ivm-calc-total').append("<h4 class='uk-text-warning'>Morate izabrati tip racunara i procesor</h4>");
+				}
+
+
+		    });
+
+			$(".reset").click(function(event) {
+				event.preventDefault();
+				$('.ivm-calc-total').empty();
+				$("select").val('');
+				$("#komp input[type=checkbox]").prop('checked', false).attr('disabled', 'disabled');
+				$(this).addClass('uk-hidden');
+			});
+
+
         });
     </script>
-    
+
 	</head>
 	<body>
-	<div class="uk-container uk-section">
-		<!-- simple kalkulator -->
-		<form class="uk-form">
-			<div class="uk-form-row">
-				<label>Proizvod</label><br />
-				<select class="uk-select ivm-cena-proizvoda racunaj uk-width-1-1">
-					<option value="0">Izaberi</option>
-					<option value="200">Proizvod 1</option>
-					<option value="300">Proizvod 2</option>
-					<option value="400">Proizvod 3</option>
-				</select>
-			</div>
-			<div class="uk-form-row">
-				<label>Duzina</label>
-				<input id="duz" class="racunaj uk-input uk-width-1-1 uk-text-right" type="text" name="duz" value="0" />
-			</div>
-			<div class="uk-form-row">
-				<label>Visina</label>
-				<input id="vis" class="racunaj uk-input uk-width-1-1 uk-text-right" type="text" name="vis" value="0" />
-			</div>
-			<div class="uk-form-row uk-text-right">
-				<span id="kvadratura">0</span>
-				<span>m2</span>
-			</div>
-			<div class="uk-form-row uk-text-right">
-				<span id="ukupno">0</span>
-				<span>RSD</span>
-			</div>
-		</form>
-		
-		<!-- Chechbox Calculate -->
-		<form class="uk-form">
-			<input class="ivm-calc-value" type="checkbox" name="name_array[]" value="1" />
-			<input class="ivm-calc-value" type="checkbox" name="name_array[]" value="2" />
-			<input class="ivm-calc-value" type="checkbox" name="name_array[]" value="3" />
-			<div class="ivm-calc-total">0</div>
-		</form>
-		
-	</div>	
+		<div class="uk-container uk-section">
+
+			<h2>Izracunaj cenu proizvoda na osnovu kvarature</h2>
+			<form action="./" method="get">
+				<div class="uk-grid">
+					<div class="uk-width-expand@m">
+						<label>Izaberi Prozivod</label><br />
+						<select class="uk-select ivm-cena-proizvoda racunaj">
+							<option value="">Izaberi</option>
+							<option value="200">Proizvod 1 (200 din)</option>
+							<option value="300">Proizvod 2 (300 din)</option>
+							<option value="400">Proizvod 3 (400 din)</option>
+						</select>
+					</div>
+					<div class="uk-width-expand@m">
+						<label>Duzina</label>
+						<input id="duz" class="racunaj uk-input" type="text" name="duz" value="0" />
+					</div>
+					<div class="uk-width-expand@m">
+						<label>Visina</label>
+						<input id="vis" class="racunaj uk-input" type="text" name="vis" value="0" />
+					</div>
+				</div>
+				<div class="uk-margin uk-text-right">
+					<span id="kvadratura" class="uk-h4">0</span>
+					<span>m2</span>
+				</div>
+				<div class="uk-margin uk-text-right">
+					<span id="ukupno" class="uk-h3">Izaberite prozivod</span>
+				</div>
+			</form>
+
+			<h2 class="uk-margin-medium-bottom">Izracunaj cenu racunara :)</h2>
+			<!-- Chechbox Calculate -->
+			<form  id="komp" class="uk-form-horizontal" action="./" method="post">
+				<div class="uk-margin">
+			        <label class="uk-form-label">Tip Racunara</label>
+			        <div class="uk-form-controls">
+						<select id="tip" class="uk-select">
+							<option value="">- Izaberi Tip Racunara -</option>
+							<option data-tip="laptop" value="999">Surface laptop (999)</option>
+							<option data-tip="pro" value="499">Surface Pro 4 (499)</option>
+							<option data-tip="studio" value="1499">Surface Book (1499)</option>
+							<option data-tip="mac" value="2899">Apple iMac (2899)</option>
+							<option data-tip="mac" value="1999">MacBook Pro (1999)</option>
+						</select>
+			        </div>
+			    </div>
+				<div class="uk-margin">
+			        <label class="uk-form-label">Procesor</label>
+			        <div class="uk-form-controls">
+						<select id="cpu" class="uk-select" disabled="">
+							<option value="">- Izaberi Procesor -</option>
+							<option value="200">AMD (200)</option>
+							<option value="300">Intel (300)</option>
+						</select>
+			        </div>
+			    </div>
+			    <div class="uk-margin">
+			        <label class="uk-form-label">4k Monitor (480)</label>
+			        <div class="uk-form-controls">
+						<input class="ivm-calc-value uk-checkbox" type="checkbox" name="name_array[]" value="480" disabled="" />
+			        </div>
+			    </div>
+				<div class="uk-margin">
+			        <label class="uk-form-label">1TB SSD (265)</label>
+			        <div class="uk-form-controls">
+						<input class="ivm-calc-value uk-checkbox" type="checkbox" name="name_array[]" value="265" disabled="" />
+			        </div>
+			    </div>
+				<div class="uk-margin">
+					<label class="uk-form-label">16GB RAM (115)</label>
+					<div class="uk-form-controls">
+						<input class="ivm-calc-value uk-checkbox" type="checkbox" name="name_array[]" value="115" disabled=""  />
+					</div>
+				</div>
+				<hr class="uk-margin-medium uk-margin-bottom" />
+				<div>
+					<label class="uk-form-label"><strong class="uk-text-uppercase">Ukupno:</strong></label>
+					<div class="uk-form-controls">
+						<div class="ivm-calc-total"><h3 class="uk-text-primary">Izaberi Tip Racunara</h3></div>
+						<button class="reset uk-button uk-button-text uk-hidden">Reset</button>
+					</div>
+				</div>
+			</form>
+
+		</div>
 	</body>
 </html>
