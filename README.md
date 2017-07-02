@@ -1,4 +1,4 @@
-##Simple jQuery Price Calculator
+## Simple jQuery Price Calculator
 ###
 Just some simple jquery price calculator, see <a target="_blank" href="https://lokomotivan.github.io/jQuery-Price-Kalkulator/">Example</a>
 ###
